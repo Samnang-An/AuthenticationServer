@@ -43,6 +43,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.30</version>
@@ -53,6 +54,8 @@
 		</dependency>
 
 		<dependency>
+=======
+>>>>>>> 2f1f043 (init server)
 			<artifactId>jaxb-impl</artifactId>
 			<groupId>com.sun.xml.bind</groupId>
 			<version>2.3.1</version>
