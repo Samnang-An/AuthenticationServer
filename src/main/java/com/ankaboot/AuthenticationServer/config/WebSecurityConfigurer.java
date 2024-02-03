@@ -1,14 +1,19 @@
 package com.ankaboot.AuthenticationServer.config;
 
+import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+
+  @Resource(name = "userService")
+  private UserDetailsService userDetailsService;
 
   @Override
   @Bean
@@ -17,18 +22,13 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
   }
 
   @Override
-  @Bean
-  public UserDetailsService userDetailsServiceBean() throws Exception {
-    return super.userDetailsServiceBean();
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+//            .passwordEncoder(encoder());
   }
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .withUser("john").password("{noop}password1").roles("CUSTOMER")
-        .and()
-        .withUser("frank").password("{noop}password2").roles("CUSTOMER", "EMPLOYEE")
-        .and()
-        .withUser("david").password("{noop}password3").roles("CUSTOMER", "EMPLOYEE", "MANAGER");
-  }
+//  @Bean
+//  public BCryptPasswordEncoder encoder() {
+//    return new BCryptPasswordEncoder();
+//  }
 }
