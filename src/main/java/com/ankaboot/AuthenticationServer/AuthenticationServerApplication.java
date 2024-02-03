@@ -1,7 +1,13 @@
 package com.ankaboot.AuthenticationServer;
 
+import com.ankaboot.AuthenticationServer.dataaccess.service.UserService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -12,22 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@RestController
 @EnableResourceServer
 @EnableAuthorizationServer
 public class AuthenticationServerApplication {
 
+  @Autowired
+  private UserService userService;
+
   public static void main(String[] args) {
     SpringApplication.run(AuthenticationServerApplication.class, args);
-  }
-
-  @RequestMapping(value = {"/user"}, produces = "application/json")
-  public Map<String, Object> user(OAuth2Authentication user) {
-    Map<String, Object> userInfo = new HashMap<>();
-    userInfo.put("user", user.getUserAuthentication().getPrincipal());
-    userInfo.put("authorities",
-        AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
-    return userInfo;
   }
 
 }
