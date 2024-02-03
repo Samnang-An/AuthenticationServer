@@ -6,6 +6,5 @@ spring:
       host: localhost
       port: 27017
       database: oauth-database
-      username:
-      password:
-
+#      username:
+#      password:
