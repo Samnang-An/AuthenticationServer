@@ -1,4 +1,4 @@
-FROM maven: 3.6.3-openjdk-11 as build
+FROM maven:3.6.0-jdk-11-slim as build
 WORKDIR /app
 COPY pom.xml ./
 
