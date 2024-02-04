@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+  private final String USER_NOT_FOUND_MSG = "Username is not found";
   @Autowired
   UserRepository userRepository;
 
@@ -33,7 +34,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public UserDto updateUser(String username, String passowrd, List<String> roles) {
-    User user = userRepository.findByUsername(username);
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
+    user.setPassword(passowrd);
+    user.setRoles(roles);
+    return UserDto.from(userRepository.save(user));
+  }
+
+  @Override
+  public UserDto updateUser(long userId, String username, String passowrd, List<String> roles) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
     user.setPassword(passowrd);
     user.setRoles(roles);
     return UserDto.from(userRepository.save(user));
@@ -46,7 +57,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public UserDto fetchUser(String username) {
-    return UserDto.from(userRepository.findByUsername(username));
+    return UserDto.from(userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG)));
   }
 
   @Override
@@ -55,11 +67,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByUsername(username);
+  public void deleteUser(long userId) {
+    userRepository.deleteById(userId);
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) {
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
     return new org.springframework.security.core.userdetails.User(
         user.getUsername(),
-        "{noop}" +user.getPassword(),
+        "{noop}" + user.getPassword(),
         user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
     );
   }
