@@ -2,7 +2,6 @@ package com.ankaboot.AuthenticationServer.dataaccess.service;
 
 import com.ankaboot.AuthenticationServer.dto.UserDto;
 import java.util.List;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface UserService {
 
