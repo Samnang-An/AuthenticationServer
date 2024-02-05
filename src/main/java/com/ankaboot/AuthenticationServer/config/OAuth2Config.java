@@ -1,6 +1,7 @@
 package com.ankaboot.AuthenticationServer.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,11 +22,18 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  @Value(value = "${security.oauth2.client.clientId}")
+  private String clientId;
+
+  @Value(value = "${security.oauth2.client.clientSecret}")
+  private String clientSecret;
+
+
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     clients.inMemory()
-        .withClient("client")
-        .secret(passwordEncoder.encode("secret"))
+        .withClient(clientId)
+        .secret(passwordEncoder.encode(clientSecret))
         .authorizedGrantTypes("refresh_token", "password", "client_credentials")
         .scopes("webclient", "mobileclient");
   }

@@ -8,3 +8,8 @@ spring:
       database: oauth-database
 #      username:
 #      password:
+security:
+  oauth2:
+    client:
+      clientId: ankaboot
+      clientSecret: ankaboot
