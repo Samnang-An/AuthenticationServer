@@ -1,6 +1,4 @@
-# Authentication Server 
-
-## Overview
+# Overview
 
 Welcome to the Authentication Server! This server is implemented using OAuth 2.0 to provide secure and standardized authentication through all Ankaboot application. It offers various endpoints to handle user-related operations and token management.
 
@@ -30,7 +28,7 @@ Welcome to the Authentication Server! This server is implemented using OAuth 2.0
     - **Authentication:** Bearer Token in the Authorization header.
     - **Request Body:**
        - `username`: The new user's username.
-       - `password`: The new user's password.\
+       - `password`: The new user's password.
        - `roles`: The list user roles.
 
 4. **`/update-user/{user-id}`**
@@ -39,7 +37,7 @@ Welcome to the Authentication Server! This server is implemented using OAuth 2.0
     - **Authentication:** Bearer Token in the Authorization header.
     - **Request Body:**
       - `username`: The new user's username.
-      - `password`: The new user's password.\
+      - `password`: The new user's password.
       - `roles`: The list user roles.
 
 5. **`/delete-user/{user-id}`**
@@ -60,6 +58,10 @@ Welcome to the Authentication Server! This server is implemented using OAuth 2.0
 ### Analyst:
 - Username: analyst
 - Password: 123
+
+### Client-Secret
+
+   > https://gitlab.com/miu-swa/configserver/-/blob/main/authentication-client-dev.yml
 
 ## Getting Started
 
