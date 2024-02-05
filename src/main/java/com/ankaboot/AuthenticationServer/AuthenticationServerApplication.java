@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableResourceServer
 @EnableAuthorizationServer
-public class AuthenticationServerApplication {
+public class AuthenticationServerApplication implements CommandLineRunner {
 
   @Autowired
   private UserService userService;
@@ -29,4 +29,10 @@ public class AuthenticationServerApplication {
     SpringApplication.run(AuthenticationServerApplication.class, args);
   }
 
+  @Override
+  public void run(String... args) throws Exception {
+//    userService.createUser("admin","123",Arrays.asList("ADMIN"));
+//    userService.createUser("manager","123",Arrays.asList("MANAGER"));
+//    userService.createUser("analyst","123",Arrays.asList("ANALYST"));
+  }
 }

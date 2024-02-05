@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,26 +27,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   @Autowired
   SequenceGenerator sequenceGenerator;
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
   @Override
   public UserDto createUser(String username, String password, List<String> roles) {
-    User user = new User(sequenceGenerator.generate(User.SEQUENCE_NAME), username, password, roles);
+    User user = new User(
+        sequenceGenerator.generate(User.SEQUENCE_NAME),
+        username,
+        passwordEncoder.encode(password),
+        roles);
     return UserDto.from(userRepository.save(user));
   }
 
   @Override
-  public UserDto updateUser(String username, String passowrd, List<String> roles) {
+  public UserDto updateUser(String username, String password, List<String> roles) {
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
-    user.setPassword(passowrd);
+    user.setPassword(passwordEncoder.encode(password));
     user.setRoles(roles);
     return UserDto.from(userRepository.save(user));
   }
 
   @Override
-  public UserDto updateUser(long userId, String username, String passowrd, List<String> roles) {
+  public UserDto updateUser(long userId, String username, String password, List<String> roles) {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
-    user.setPassword(passowrd);
+    user.setPassword(passwordEncoder.encode(password));
     user.setRoles(roles);
     return UserDto.from(userRepository.save(user));
   }
@@ -77,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG));
     return new org.springframework.security.core.userdetails.User(
         user.getUsername(),
-        "{noop}" + user.getPassword(),
+        user.getPassword(),
         user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
     );
   }
