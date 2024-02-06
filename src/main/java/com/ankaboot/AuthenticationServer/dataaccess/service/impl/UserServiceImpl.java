@@ -8,6 +8,7 @@ import com.ankaboot.AuthenticationServer.dto.UserDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +33,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public UserDto createUser(String username, String password, List<String> roles) {
+    userRepository.findByUsername(username)
+        .orElseThrow(() -> new DuplicateKeyException("Username is already exist!"));
     User user = new User(
         sequenceGenerator.generate(User.SEQUENCE_NAME),
         username,

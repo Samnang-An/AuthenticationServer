@@ -5,6 +5,7 @@ import com.ankaboot.AuthenticationServer.dto.UserDto;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -24,21 +25,26 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @PostMapping("/create-user")
-  public ResponseEntity<UserDto> createUser(@RequestBody UserForm user) {
-    return ResponseEntity.ok().body(userService.createUser(
-        user.getUsername(),
-        user.getPassword(),
-        user.getRoles()
-    ));
+  @PostMapping("/create_user")
+  public ResponseEntity<Object> createUser(@RequestBody UserForm user) {
+    try {
+      return ResponseEntity.ok().body(userService.createUser(
+          user.getUsername(),
+          user.getPassword(),
+          user.getRoles()
+      ));
+    } catch (DuplicateKeyException dke) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dke.getMessage());
+    }
   }
 
-  @PutMapping("/update-user/{userId}")
-  public ResponseEntity<Object> updateUserById(@PathVariable long id, @RequestBody UserForm user) {
+  @PutMapping("/update_user/{userId}")
+  public ResponseEntity<Object> updateUserById(@PathVariable long userId,
+      @RequestBody UserForm user) {
     UserDto userDto;
     try {
       userDto = userService.updateUser(
-          id,
+          userId,
           user.getUsername(),
           user.getPassword(),
           user.getRoles()
@@ -49,7 +55,7 @@ public class UserController {
     return ResponseEntity.ok(userDto);
   }
 
-  @PutMapping("/update-user")
+  @PutMapping("/update_user")
   public ResponseEntity<Object> updateUser(@RequestBody UserForm user) {
     UserDto userDto;
     try {
@@ -64,7 +70,7 @@ public class UserController {
     return ResponseEntity.ok(userDto);
   }
 
-  @DeleteMapping("/delete-user/{userId}")
+  @DeleteMapping("/delete_user/{userId}")
   public ResponseEntity<String> deleteUser(@PathVariable long userId) {
     try {
       userService.deleteUser(userId);

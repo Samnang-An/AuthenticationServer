@@ -11,12 +11,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
+//    http.csrf().disable().authorizeRequests().anyRequest().authenticated();
     http
         .authorizeRequests()
-        .antMatchers("/user").permitAll()
-        .antMatchers("/create-user").hasRole("ADMIN")
-        .antMatchers("/update-user").hasRole("ADMIN")
-        .antMatchers("/delete-user").hasRole("ADMIN")
+        .antMatchers("/user").hasAuthority("ADMIN")
+        .antMatchers("/create_user").hasAuthority("ADMIN")
+        .antMatchers("/update_user/**").hasAuthority("ADMIN")
+        .antMatchers("/delete_user/**").hasAuthority("ADMIN")
         .anyRequest()
         .authenticated();
   }
