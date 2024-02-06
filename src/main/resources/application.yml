@@ -1,16 +1,9 @@
 server:
-  port: 8080
+  port: 8081
 spring:
-  data:
-    mongodb:
-      host: mongodb
-      port: 27017
-      database: oauth-database
-#      username:
-#      password:
-
-security:
-  oauth2:
-    client:
-      clientId: ankaboot
-      clientSecret: ankaboot
+  application:
+    name: auth
+  profiles:
+    active: prod
+  config:
+    import: "optional:configserver:configuration-service:8888"
