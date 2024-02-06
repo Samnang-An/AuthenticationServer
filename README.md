@@ -45,6 +45,8 @@ Welcome to the Authentication Server! This server is implemented using OAuth 2.0
     - **Description:** Delete the authenticated user's account.
     - **Authentication:** Bearer Token in the Authorization header.
 
+> [Postman API sample](https://www.postman.com/samnangan/workspace/samnang-public/collection/28451928-160d8db8-0dde-468a-99d2-ffa43f6ef551?action=share&creator=28451928)
+
 ## Predefine Users
 
 ### Administrator:
