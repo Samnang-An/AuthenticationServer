@@ -67,7 +67,10 @@ Welcome to the Authentication Server! This server is implemented using OAuth 2.0
 
 ## Getting Started
 
-To interact with the Authentication Server, follow these steps:
+### Start MongoDB server
+> port: 27017
+
+### Interact with the Authentication Server
 
 1. **Get Token:**
     - Use the `/oauth/token` endpoint with the appropriate parameters to obtain an access token.
