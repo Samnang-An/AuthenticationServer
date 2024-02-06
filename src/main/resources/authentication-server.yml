@@ -14,3 +14,9 @@ security:
     client:
       clientId: ankaboot
       clientSecret: ankaboot
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://servicediscovery1.com:8761/eureka
+  registerWithEureka: true
+  fetchRegistry: true
