@@ -5,6 +5,45 @@ Welcome to the Authentication Server! This server is implemented using OAuth 2.0
 ##
 ![](img/user_role.png)
 
+## How to use Authentication server in local
+
+- clone projects 
+  - git@gitlab.com:miu-swa/authenticationserver.git
+  - git@gitlab.com:miu-swa/configuration-swa.git
+
+- config authentication server
+  - import auth_client to your service application
+  ```
+    spring:
+      config:
+        import: auth_client.yml
+  ```
+
+- add ResourceConfig
+
+  ```
+  @Configuration
+  @EnableResourceServer
+  public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+      http
+          .authorizeRequests()
+          .antMatchers("/name").hasAuthority("ADMIN")
+          .anyRequest()
+          .authenticated();
+    }
+
+  }
+  ```
+
+- Start Services
+  - Configserver
+  - Authentication server
+  - YOUR_SERVICE
+
+
 ## Endpoints
 
 1. **`/oauth/token`**
