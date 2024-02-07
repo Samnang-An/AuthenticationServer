@@ -6,4 +6,4 @@ spring:
   profiles:
     active: prod
   config:
-    import: "optional:configserver:configuration-service:7000"
+    import: "optional:configserver:configuration-service:8888"
