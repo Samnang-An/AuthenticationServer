@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: auth
+  cloud:
+    config:
+      profile: prod
+      uri: http://configuration-service:7000
