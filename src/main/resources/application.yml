@@ -1,9 +1,2 @@
 server:
-  port: 8081
-spring:
-  application:
-    name: auth
-  profiles:
-    active: prod
-  config:
-    import: "optional:configserver:configuration-service:7000"
+  port: 8080
