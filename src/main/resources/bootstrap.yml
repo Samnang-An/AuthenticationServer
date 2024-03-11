@@ -4,4 +4,4 @@ spring:
   cloud:
     config:
       profile: prod
-      uri: http://configuration-service:7000
+      uri: ${CONFIG_SERVER_URI:https://config-server.delightfulfield-91802938.eastus.azurecontainerapps.io}

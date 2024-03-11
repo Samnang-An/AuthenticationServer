@@ -1,12 +1,8 @@
-FROM maven:3.6.0-jdk-11-slim as build
-WORKDIR /app
-COPY pom.xml ./
-
-COPY src src
-RUN mvn package -DskipTests
-
-FROM azul/zulu-openjdk-alpine:15
-WORKDIR /app
-COPY --from=build /app/target/AuthenticationServer-0.0.1-SNAPSHOT.jar /app/authentication.jar
+FROM openjdk:17-jdk-alpine
 EXPOSE 8080
-CMD ["java", "-jar", "authentication.jar"]
+ENV CONFIG_SERVER_URI=http://config-server:8888
+RUN apk add --no-cache maven
+WORKDIR /app
+COPY ./ ./
+RUN mvn package -DskipTests
+CMD ["java", "-jar","/app/target/ConfigRemoteServer-0.0.1-SNAPSHOT.jar"]
